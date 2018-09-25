@@ -1,6 +1,6 @@
 <html>
 <head>
-   <title>403 禁止</title>
+   <title>403 Forbidden</title>
    <style type="text/css">
 html, body {
    background: #0b1933;
@@ -29,8 +29,8 @@ label {
 </head>
 <body>
    <div id="wrapper">
-      <h1>403错误</h1>
-      <p>您没有权限使用这个服务.</p>
+      <h1>Forbidden</h1>
+      <p>You are not permitted to use this service.</p>
    </div>
 </body>
 </html>
