@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -15,21 +15,24 @@
 
 
 /*****************************************************************
-* 特殊选项
+* Special Options
 ******************************************************************/
 
-# 如果您已经购买了许可证，请在此输入您的许可证密钥。如果你没有许可证，则不填。
+# If you have purchased a license, please enter your license key
+# here. Leave blank if you don't have a license.
 $CONFIG['license_key'] = '';
 
-# BlockScript是保护并授权网站管理员阻止不需要的区域流量安全程序。
+# BlockScript is security software which protects websites and
+# empowers webmasters to stop unwanted traffic.
 $CONFIG['enable_blockscript'] = false;
 
 
 /*****************************************************************
-* 安装选项
+* Installation Options
 ******************************************************************/
 
-# 主题/皮肤使用，对应/主题/文件夹中的相应文件夹名称。
+# Theme/skin to use. This should be the name of the appropriate
+# folder inside the /themes/ folder.
 $CONFIG['theme'] = 'default';
 
 # Run plugins on these websites
@@ -44,7 +47,7 @@ $CONFIG['tmp_dir'] = GLYPE_ROOT . '/tmp/';
 # reduces bandwidth usage but at the cost of increased CPU load.
 $CONFIG['gzip_return'] = false;
 
-# Warn users before browsing a secure site if on an insecure
+# Warn users before browsing a secure site if on an unsecure
 # connection. This option has no effect if your proxy is on https.
 $CONFIG['ssl_warning'] = true;
 
@@ -65,7 +68,7 @@ $CONFIG['footer_include'] = '';
 
 
 /*****************************************************************
-* URL编码选项
+* URL Encoding Options
 ******************************************************************/
 
 # Formats URLs as browse.php/aHR0... instead of
@@ -73,9 +76,14 @@ $CONFIG['footer_include'] = '';
 # servers.
 $CONFIG['path_info_urls'] = false;
 
+# Generate unique URLs for each visitor. This increases privacy for
+# the user but you cannot create links directly to proxied pages
+# from outside the script if this option is enabled.
+$CONFIG['unique_urls'] = false;
+
 
 /*****************************************************************
-* 盗链
+* Hotlinking
 ******************************************************************/
 
 # This option prevents users "hotlinking" directly to a proxied
@@ -88,7 +96,7 @@ $CONFIG['hotlink_domains'] = array();
 
 
 /*****************************************************************
-* 记录
+* Logging
 ******************************************************************/
 
 # Enable/disable the logging feature. If disabled, skip the rest of
@@ -97,7 +105,7 @@ $CONFIG['enable_logging'] = false;
 
 # Enter a destination for log files. A new log file will be created
 # each day in the directory specified. The directory must be
-# writable. To protect against unauthorized access, place the log
+# writable. To protect against unauthorised access, place the log
 # folder above your webroot.
 $CONFIG['logging_destination'] = $CONFIG['tmp_dir'] . 'logs/';
 
@@ -108,7 +116,7 @@ $CONFIG['log_all'] = false;
 
 
 /*****************************************************************
-* 网站访问控制
+* Website access control
 ******************************************************************/
 
 # Block everything except these websites
@@ -119,7 +127,7 @@ $CONFIG['blacklist'] = array();
 
 
 /*****************************************************************
-* 用户访问控制
+* User access control
 ******************************************************************/
 
 # 
@@ -127,7 +135,7 @@ $CONFIG['ip_bans'] = array();
 
 
 /*****************************************************************
-* 传输选项
+* Transfer options
 ******************************************************************/
 
 # Time to wait for while establishing a connection to the target
@@ -167,7 +175,7 @@ $CONFIG['queue_transfers'] = true;
 $CONFIG['cookies_on_server'] = false;
 
 # If storing cookies on the server, specify a folder to save the
-# cookie data in. To protect against unauthorized access, place the
+# cookie data in. To protect against unauthorised access, place the
 # cookie folder above your webroot.
 $CONFIG['cookies_folder'] = $CONFIG['tmp_dir'] . 'cookies/';
 
@@ -179,7 +187,7 @@ $CONFIG['encode_cookies'] = false;
 
 
 /*****************************************************************
-* 维护
+* Maintenance
 ******************************************************************/
 
 # How often to clear the temporary files created by the script?
@@ -191,63 +199,63 @@ $CONFIG['tmp_cleanup_logs'] = 0;
 
 
 /*****************************************************************
-* 用户可配置选项
+* User Configurable Options
 ******************************************************************/
 
 $CONFIG['options']['encodeURL'] = array(
-	'title'	 => '加密URL',
-	'desc'	 => '查看加密网页的URL',
+	'title'	 => 'Encrypt URL',
+	'desc'	 => 'Encrypts the URL of the page you are viewing so that it does not contain the target site in plaintext.',
 	'default' => true,
-	'force'	 => true
+	'force'	 => false
 );
 
 $CONFIG['options']['encodePage'] = array(
-	'title'	 => '加密页面',
-	'desc'	 => '有助于避免过滤器发送和接收JavaScript之前加密页面',
-	'default' => true,
-	'force'	 => true
+	'title'	 => 'Encrypt Page',
+	'desc'	 => 'Helps avoid filters by encrypting the page before sending it and decrypting it with javascript once received.',
+	'default' => false,
+	'force'	 => false
 );
 
 $CONFIG['options']['showForm'] = array(
-	'title'	 => '表现形式',
-	'desc'	 => '每一页顶部的小表格，让您可以快速跳转到其他网站，而无需返回我们代理程序的主页',
-	'default' => false,
+	'title'	 => 'Show Form',
+	'desc'	 => 'This provides a mini form at the top of each page to allow you to quickly jump to another site without returning to our homepage.',
+	'default' => true,
 	'force'	 => true
 );
 
 $CONFIG['options']['allowCookies'] = array(
-	'title'	 => '允许 Cookies',
-	'desc'	 => '交互式网站需要Cookies（尤其是在你登录网站时），但广告商还会使用Cookie来跟踪你的浏览习惯',
+	'title'	 => 'Allow Cookies',
+	'desc'	 => 'Cookies may be required on interactive websites (especially where you need to log in) but advertisers also use cookies to track your browsing habits.',
 	'default' => true,
-	'force'	 => true
+	'force'	 => false
 );
 
 $CONFIG['options']['tempCookies'] = array(
-	'title'	 => '强迫临时cookies',
-	'desc'	 => '这个选项将所有cookies过期日期设置为浏览的最后，即您关闭浏览器后所有的cookies将被删除（推荐）',
+	'title'	 => 'Force Temporary Cookies',
+	'desc'	 => 'This option overrides the expiry date for all cookies and sets it to at the end of the session only - all cookies will be deleted when you shut your browser. (Recommended)',
 	'default' => true,
 	'force'	 => true
 );
 
 $CONFIG['options']['stripTitle'] = array(
-	'title'	 => '删除网页标题',
-	'desc'	 => '删除代理页面的标题',
-	'default' => true,
+	'title'	 => 'Remove Page Titles',
+	'desc'	 => 'Removes titles from proxied pages.',
+	'default' => false,
 	'force'	 => true
 );
 
 $CONFIG['options']['stripJS'] = array(
-	'title'	 => '删除脚本',
-	'desc'	 => '删除脚本，以保护您的匿名性，加快页面加载（推荐）',
-	'default' => false,
-	'force'	 => true
+	'title'	 => 'Remove Scripts',
+	'desc'	 => 'Remove scripts to protect your anonymity and speed up page loads. However, not all sites will provide an HTML-only alternative. (Recommended)',
+	'default' => true,
+	'force'	 => false
 );
 
 $CONFIG['options']['stripObjects'] = array(
-	'title'	 => '删除对象',
-	'desc'	 => '您可以通过删除不必要的Flash，Java和其他对象提高页面加载时间。如果不消除，这些可能会影响你的匿名',
-	'default' => false,
-	'force'	 => true
+	'title'	 => 'Remove Objects',
+	'desc'	 => 'You can increase page load times by removing unnecessary Flash, Java and other objects. If not removed, these may also compromise your anonymity.',
+	'default' => true,
+	'force'	 => false
 );
 
 
@@ -255,12 +263,11 @@ $CONFIG['options']['stripObjects'] = array(
 * Do not edit this section manually!
 ******************************************************************/
 
-# Settings file version for determining compatibility with admin
+# Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.11';
+$CONFIG['version'] = '1.4.15';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites
 // the settings. Useful for storing settings that don't/can't be changed from the control panel
-
-$adminDetails['admin'] = 'e10adc3949ba59abbe56e057f20f883e';
+$adminDetails['admin'] = 'cbc77e10abb928ba343183bae6f45579';
