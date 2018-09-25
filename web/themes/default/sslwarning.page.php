@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Security Warning</title>
+	<title>安全警告</title>
 	<style type="text/css">
 html, body {
 	background: #0b1933;
@@ -24,16 +24,16 @@ form {
    <base href="<?php echo GLYPE_URL; ?>/">
 </head>
 <body>
-	<div id="wrapper">
+	<div id="警告">
 		<h1>Warning!</h1>
-		<p>The site you are attempting to browse is on a secure connection. This proxy is not on a secure connection.</p>
-      <p>The target site may send sensitive data, which may be intercepted when the proxy sends it back to you.</p>
+		<p>您访问的网站试图通过一个安全连接进行访问. 这个代理并非安全</p>
+      <p>点击将继续发送敏感数据, 并通过本在线浏览器发送给你</p>
       <form action="includes/process.php" method="get">
          <input type="hidden" name="action" value="sslagree">
-			<input type="submit" value="Continue anyway...">
-         <input type="button" value="Return to index" onclick="window.location='.';">
+			<input type="submit" value="仍然继续...">
+         <input type="button" value="返回主页" onclick="window.location='.';">
 		</form>
-      <p><b>Note:</b> this warning will not appear again.</p>
+      <p><b>注意:</b> 这个警告将会重复出现.</p>
 	</div>
 </body>
 </html>

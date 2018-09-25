@@ -71,15 +71,15 @@ echo <<<OUT
          
          <b>URL:</b>
          <input type="text" name="u" size="40" value="{$url}" class="url-input" style="width:50%;" />
-         <input type="submit" value="Go" class="url-input url-button" />
+         <input type="submit" value="Go!" class="url-input url-button" />
          
-         [<a href="{$proxy}/index.php" target="_top">home</a>]
-         [<a href="{$proxy}/includes/process.php?action=clear-cookies&return={$return}" target="_top">clear cookies</a>]
+         [<a href="{$proxy}/index.php" target="_top">主页</a>]
+         [<a href="{$proxy}/includes/process.php?action=clear-cookies&return={$return}" target="_top">清除Cookies</a>]
          
       </p>
       
       <p>
-         <b>Options:</b>
+         <b>选项:</b>
 OUT;
 
 // Loop through the options and print with appropriate checkedness
