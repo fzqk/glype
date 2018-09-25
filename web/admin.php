@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -12,7 +12,6 @@
 /*****************************************************************
 * Configuration - edit this section (if you want!)
 ******************************************************************/
-	
 
 # Path to the /includes/settings.php file. Change if you want to move
 # this admin script out of the glype directory. You can use a relative
@@ -43,7 +42,7 @@ ini_set('display_errors', 1);
 define('ADMIN_URI', $_SERVER['PHP_SELF']);
 
 # Define the current admin version
-define('ADMIN_VERSION', '1.4.11');
+define('ADMIN_VERSION', '1.4.15');
 
 # Start buffering
 ob_start();
@@ -576,7 +575,7 @@ OUT;
 
 		# Add the "welcome" and log out link
 		if ( $this->admin ) {
-			echo "主人来咯~~~ <i>{$this->admin}</i> : <strong><a href=\"{$self}?logout\">注销</a></strong>\r\n";
+			echo "welcome, <i>{$this->admin}</i> : <strong><a href=\"{$self}?logout\">log out</a></strong>\r\n";
 		}
 
 		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
@@ -586,8 +585,8 @@ OUT;
 
 				<div id="topheader">
 					<h1 id="title">
-						<a href="{$self}">Glype管理控制面板</a><br>
-						<span>首页 {$http_host}</span>
+						<a href="{$self}">Glype Admin Control Panel</a><br>
+						<span>for {$http_host}</span>
 					</h1>
 				</div>
 
@@ -658,7 +657,7 @@ OUT;
 			echo '
 				<br>
 				<div class="other_links">
-					<h2>请参阅</h2>
+					<h2>See also</h2>
 					<ul class="other">
 					';
 
@@ -982,7 +981,7 @@ if ( $input->gFetch && $user->isAdmin() ) {
 
 			# Ensure we have a return
 			if ( empty($success) ) {
-				echo '目前无法连接到glype.com的新闻更新。';
+				echo 'Currently unable to connect to glype.com for a news update.';
 			}
 
 			break;
@@ -1084,13 +1083,13 @@ $self = ADMIN_URI;
 
 # Links to other sections of the control panel
 if ( $user->isAdmin() ) {
-	$output->addNavigation('主页', $self);
-	$output->addNavigation('编辑设置', $self.'?settings');
-	$output->addNavigation('查看日志', $self.'?logs');
-    #$output->addNavigation('Glype&reg; Licenses', 'https://www.glype.com/purchase.php');
-	#$output->addNavigation('BlockScript&reg;', $self.'?blockscript');
-	#$output->addNavigation('支持论坛', 'http://proxy.org/forum/glype-proxy/');
-	#$output->addNavigation('推广你的Proxy', 'https://proxy.org/advertise.shtml');
+	$output->addNavigation('Home', $self);
+	$output->addNavigation('Edit Settings', $self.'?settings');
+	$output->addNavigation('View Logs', $self.'?logs');
+	$output->addNavigation('Glype&reg; Licenses', 'https://www.glype.com/purchase.php');
+	$output->addNavigation('BlockScript&reg;', $self.'?blockscript');
+	$output->addNavigation('Support Forum', 'http://proxy.org/forum/glype-proxy/');
+	$output->addNavigation('Promote Your Proxy', 'https://proxy.org/advertise.shtml');
 }
 
 
@@ -1259,7 +1258,7 @@ OUT;
 				} else {
 
 					# Incorrect password
-					$error->add('您所提交的登录信息不正确。');
+					$error->add('The login details you submitted were incorrect.');
 
 				}
 
@@ -1274,16 +1273,14 @@ OUT;
 
 		# Set up page titles
 		$output->title		 = 'log in';
-		$output->bodyTitle = '登录';
+		$output->bodyTitle = 'Log in';
 
 		# Add javascript
 		$output->addDomReady("document.getElementById('username').focus();");
 
 		# Show form
-		
-		
 		echo <<<OUT
-			<p>只允许授权的用户才能进入后台。在下面输入您的管理账号密码:</p>
+			<p>This is a restricted area for authorised users only. Enter your log in details below.</p>
 			<form action="{$self}?login" method="post">
 				<table class="form_table" border="0" cellpadding="0" cellspacing="0">
 					<tr>
@@ -1295,7 +1292,7 @@ OUT;
 						<td align="left"><input class="inputgri" name="adminPassword" type="password"></td>
 					</tr>
 				</table>
-				<p><input class="button" value="提交 &raquo;" name="loginsubmit" type="submit"></p>
+				<p><input class="button" value="Submit &raquo;" name="loginsubmit" type="submit"></p>
 			</form>
 OUT;
 
@@ -1367,19 +1364,19 @@ OUT;
 		# --------------------------------------
 
 		# Print page header
-		$output->bodyTitle = '欢迎来到控制面板';
+		$output->bodyTitle = 'Welcome to your control panel';
 
 		#
 		# Glype news
 		#
 
 		echo <<<OUT
-		<p>这个脚本提供了一个简单易用的界面来管理您的Glype，充分利用上面的导航。</p>
-		<h2>Glype最新消息:</h2>
+		<p>This script provides an easy to use interface for managing your Glype. Use the navigation above to get started.</p>
+		<h2>Latest Glype news...</h2>
 		<iframe scrolling="no" src="{$self}?fetch=news" style="width: 100%; height:150px; border: 1px solid #ccc;" onload="setTimeout('updateLatestVersion()',1000);"></iframe>
 		<br><br>
 
-		<h2>检查环境...</h2>
+		<h2>Checking environment...</h2>
 		<ul class="green">
 OUT;
 
@@ -1397,8 +1394,7 @@ OUT;
 		if ( $error->hasMsg() ) {
 			echo '<p><span class="bold error-color">Environment check failed</span>. You will not be able to run Glype until you fix the above issue(s).</p>';
 		} else {
-			echo '<p><span class="bold ok-color">环境配置正确</span>. 
-您可以在此服务器上运行Glype。</p>';
+			echo '<p><span class="bold ok-color">Environment okay</span>. You can run Glype on this server.</p>';
 		}
 
 
@@ -1420,7 +1416,7 @@ OUT;
 		# Print version summary
 		echo <<<OUT
 		<br>
-		<h2>检查脚本版本...</h2>
+		<h2>Checking script versions...</h2>
 		<ul class="green">
 			<li>Control Panel version: <b>{$acpVersion}</b></li>
 			<li>Glype version: <b>{$proxyVersion}</b></li>
@@ -1455,7 +1451,7 @@ OUT;
 		}
 
 		# Load options into object
-		$options = simplexml_load_string('<?xml version="1.0" encoding="UTF-8"?><options><section name="特殊选项" type="settings"><option key="license_key" type="string" input="text" styles="wide-input"><title>Glype许可证密钥：</title><default>\'\'</default><desc>如果您已经购买了许可证，请在此输入您的许可证密钥。如果你没有许可证，则不填。</desc></option><option key="enable_blockscript" type="bool" input="radio"><title>启用 BlockScript</title><default>false</default><desc>BlockScript是保护并授权网站管理员阻止不需要的区域流量安全程序。</desc></option></section><section name="安装选项" type="settings"><option key="theme" type="string" input="select"><title>主题</title><default>\'default\'</default><desc>主题/皮肤使用，对应/主题/文件夹中的相应文件夹名称。</desc><generateOptions eval="true"><![CDATA[/* Check the dir exists */$themeDir = GLYPE_ROOT . \'/themes/\';if ( ! is_dir($themeDir) ) {return false;}/* Load folders from /themes/ */$dirs = scandir($themeDir);/* Loop through to create options string */$options = \'\';foreach ( $dirs as $dir ) {/* Ignore dotfiles */if ( $dir[0] == \'.\' ) {continue;}/* Add if this is valid theme */if ( file_exists($themeDir . $dir . \'/main.php\') ) {/* Make selected if this is our current theme */$selected =	( isset($currentValue) && $currentValue == $dir ) ? \' selected="selected"\' : \'\';/* Add option */$options .= "<option{$selected}>{$dir}</option>";}}return $options;]]></generateOptions></option><option key="plugins" type="string" input="text" styles="wide-input" readonly="readonly"><title>注册插件</title><default></default><desc>Run plugins on these websites</desc><toDisplay eval="true"><![CDATA[ if ($handle = opendir(GLYPE_ROOT."/plugins")) {while (($plugin=readdir($handle))!==false) {if (preg_match(\'#\.php$#\', $plugin)) {$plugin = preg_replace("#\.php$#", "", $plugin);$plugins[] = $plugin;}}closedir($handle);$plugin_list = implode(",", $plugins);} return $plugin_list; ]]></toDisplay><afterField>从插件目录中自动生成的。不要编辑！</afterField></option><option key="tmp_dir" type="string" input="text" styles="wide-input"><title>临时目录</title><default>GLYPE_ROOT . \'/tmp/\'</default><desc>Temporary directory used by the script. Many features require write permission to the temporary directory. Ensure this directory exists and is writable for best performance.</desc><relative to="GLYPE_ROOT" desc="root proxy folder" /><isDir /></option><option key="gzip_return" type="bool" input="radio"><title>使用Gzip压缩</title><default>false</default><desc>Use GZIP compression when sending pages back to the user. This reduces bandwidth usage but at the cost of increased CPU load.</desc></option><option key="ssl_warning" type="bool" input="radio"><title>SSL 警告</title><default>true</default><desc>Warn users before browsing a secure site if on an insecure connection. This option has no effect if your proxy is on https.</desc></option><option key="override_javascript" type="bool" input="radio"><title>覆盖本地JavaScript</title><default>false</default><desc>The fastest and most reliable method of ensuring javascript is properly proxied is to override the native javascript functions with our own. However, this may interfere with any other javascript added to the page, such as ad codes.</desc></option><option key="load_limit" type="float" input="text" styles="small-input"><title>负载限制器</title><default>0</default><desc>This option fetches the server load and stops the script serving pages whenever the server load goes over the limit specified. Set to 0 to disable this feature.</desc><afterField eval="true"><![CDATA[/* Attempt to find the load */$load = ( ($uptime = @shell_exec(\'uptime\')) && preg_match(\'#load average: ([0-9.]+),#\', $uptime, $tmp) ) ? (float) $tmp[1] : false;if ( $load === false ) {return \'<span class="error-color">此功能不可用</span>: 无法找到当前服务器的负载\';} else {return \'<span class="ok-color">可以使用该功能</span>.current负载: \' . $load;}]]></afterField></option><option key="footer_include" type="string" input="textarea" styles="wide-input"><title>页脚包括</title><default>\'\'</default><desc>Anything specified here will be added to the bottom of all proxied pages just before the <![CDATA[</body>]]> tag.</desc><toDisplay eval="true"><![CDATA[ return htmlentities($currentValue); ]]></toDisplay></option></section><section name="URL编码选项" type="settings"><option key="path_info_urls" type="bool" input="radio"><title>使用路径信息</title><default>false</default><desc>Formats URLs as browse.php/aHR0... instead of browse.php?u=aHR0... Path info may not be available on all servers.</desc></option></section><section name="盗链" type="settings"><option key="stop_hotlinking" type="bool" input="radio"><title>防止盗链</title><default>true</default><desc>This option prevents users "hotlinking" directly to a proxied page and forces all users to first visit the index page.</desc></option><option key="hotlink_domains" type="array" input="textarea" styles="wide-input"><title>允许盗链</title><default>array()</default><desc>If the above option is enabled, you can add individual referrers that are allowed to bypass the hotlinking protection.</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>每行输入一个域名</afterField></option></section><section name="记录" type="settings"><comment><![CDATA[<p>你可能会由于这些代理的ip地址而被追究责任，所以您可以使用日志来记录用户非法的网址访问</p>]]></comment><option key="enable_logging" type="bool" input="radio"><title>启用日志记录</title><default>false</default><desc>Enable/disable the logging feature. If disabled, skip the rest of this section.</desc></option><option key="logging_destination" type="string" input="text" styles="wide-input"><title>日志文件夹路径</title><default>$CONFIG[\'tmp_dir\']	. \'logs/\'</default><desc>Enter a destination for log files. A new log file will be created each day in the directory specified. The directory must be writable. To protect against unauthorized access, place the log folder above your webroot.</desc><relative to="$CONFIG[\'tmp_dir\']" desc="temporary directory" /><isDir /></option><option key="log_all" type="bool" input="radio"><title>记录所有请求</title><default>false</default><desc>You can avoid huge log files by only logging requests for .html pages, as per the default setting. If you want to log all requests (images, etc.) as well, enable this.</desc></option></section><section name="网站访问控制" type="settings"><comment><![CDATA[<p>您可以通过设置白名单或黑名单限制代理访问的网站：:</p><ul class="black"><li>白名单:任何不在名单上的网站将会被封锁。</li><li>黑名单:任何在名单上的将会被封锁</li></ul>]]></comment><option key="whitelist" type="array" input="textarea" styles="wide-input"><title>白名单</title><default>array()</default><desc>Block everything except these websites</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>每行输入一个域名</afterField></option><option key="blacklist" type="array" input="textarea" styles="wide-input"><title>黑名单</title><default>array()</default><desc>Block these websites</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>每行输入一个域名</afterField></option></section><section name="用户访问控制" type="settings"><comment><![CDATA[<p>您可以通过设置IP来禁止用户访问你的代理程序。您可以指定下列格式的单个IP地址或IP地址范围:</p><ul class="black"><li>127.0.0.1</li><li>127.0.0.1-127.0.0.5</li><li>127.0.0.1/255.255.255.255</li><li>192.168.17.1/16</li><li>189.128/11</li></ul>]]></comment><option key="ip_bans" type="array" input="textarea" styles="wide-input"><title>禁止IP</title><default>array()</default><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>每行输入一个IP地址或IP地址范围</afterField></option></section><section name="传输选项" type="settings"><option key="connection_timeout" type="int" input="text" styles="small-input" unit="seconds"><title>连接超时</title><default>5</default><desc>Time to wait for while establishing a connection to the target server. If the connection takes longer, the transfer will be aborted.</desc><afterField>使用 0 表示没有限制</afterField></option><option key="transfer_timeout" type="int" input="text" styles="small-input" unit="seconds"><title>传输超时</title><default>15</default><desc>Time to allow for the entire transfer. You will need a longer time limit to download larger files.</desc><afterField>使用 0 表示没有限制</afterField></option><option key="max_filesize" type="int" input="text" styles="small-input" unit="MB"><title>文件大小限制</title><default>0</default><desc>Preserve bandwidth by limiting the size of files that can be downloaded through your proxy.</desc><toDisplay>return $currentValue ? round($currentValue/(1024*1024), 2) : 0;</toDisplay><toStore>return $value*1024*1024;</toStore><afterField>使用 0 表示没有限制</afterField></option><option key="download_speed_limit" type="int" input="text" styles="small-input" unit="KB/s"><title>下载速度限制</title><default>0</default><desc>Preserve bandwidth by limiting the speed at which files are downloaded through your proxy. Note: if limiting download speed, you may need to increase the transfer timeout to compensate.</desc><toDisplay>return $currentValue ? round($currentValue/(1024), 2) : 0;</toDisplay><toStore>return $value*1024;</toStore><afterField>使用 0 表示没有限制</afterField></option><option key="resume_transfers" type="bool" input="radio"><title>恢复传输</title><default>false</default><desc>This forwards any requested ranges from the client and this makes it possible to resume previous downloads. Depending on the "Queue transfers" option below, it may also allow users to download multiple segments of a file simultaneously.</desc></option><option key="queue_transfers" type="bool" input="radio"><title>队列传输</title><default>true</default><desc>You can limit use of your proxy to allow only one transfer at a time per user. Disable this for faster browsing.</desc></option></section><section name="Cookies" type="settings"><comment><![CDATA[<p>所有Cookie必须发送到代理脚本。然后该脚本可以选择正确的cookie转发到目标服务器。如果长时间浏览，您可能需要存储cookie在服务器端，以避免时效问题。</p><br><p>但这有明显的隐私问题，如果使用此选项，确保你的网站中明确规定如何处理cookies和保护cookie数据，避免未经授权的访问。</p>]]></comment><option key="cookies_on_server" type="bool" input="radio"><title>在服务器上存储cookie</title><default>false</default><desc>If enabled, cookies will be stored in the folder specified below.</desc></option><option key="cookies_folder" type="string" input="text" styles="wide-input"><title>cookie文件夹路径</title><default>$CONFIG[\'tmp_dir\']	 . \'cookies/\'</default><desc>If storing cookies on the server, specify a folder to save the cookie data in. To protect against unauthorized access, place the cookie folder above your webroot.</desc><relative to="$CONFIG[\'tmp_dir\']" desc="temporary directory" /><isDir /></option><option key="encode_cookies" type="bool" input="radio"><title>cookies编码</title><default>false</default><desc>You can encode cookie names, domains and values with this option for optimum privacy but at the cost of increased server load and larger cookie sizes. This option has no effect if storing cookies on server.</desc></option></section><section name="维护" type="settings"><option key="tmp_cleanup_interval" type="float" input="text" styles="small-input" unit="hours"><title>清理间隔</title><default>48</default><desc>How often to clear the temporary files created by the script?</desc><afterField>使用 0 表示禁用</afterField></option><option key="tmp_cleanup_logs" type="float" input="text" styles="small-input" unit="days"><title>保持日志记录</title><default>30</default><desc>When should old log files be deleted? This option has no effect if the above option is disabled.</desc><afterField>使用 0 永不删除日志</afterField></option></section><section type="user" name="用户可配置选项"><option key="encodeURL" default="true" force="false"><title>加密URL</title><desc>查看加密网页的URL</desc></option><option key="encodePage" default="false" force="false"><title>加密页面</title><desc>Helps avoid filters by encrypting the page before sending it and decrypting it with javascript once received.</desc></option><option key="showForm" default="true" force="true"><title>Show Form</title><desc>This provides a mini-form at the top of each page that allows you to quickly jump to another site without returning to our homepage.</desc></option><option key="allowCookies" default="true" force="false"><title>Allow Cookies</title><desc>Cookies may be required on interactive websites (especially where you need to log in) but advertisers also use cookies to track your browsing habits.</desc></option><option key="tempCookies" default="true" force="true"><title>Force Temporary Cookies</title><desc>This option overrides the expiry date for all cookies and sets it to at the end of the session only - all cookies will be deleted when you shut your browser. (Recommended)</desc></option><option key="stripTitle" default="false" force="true"><title>Remove Page Titles</title><desc>Removes titles from proxied pages.</desc></option><option key="stripJS" default="true" force="false"><title>Remove Scripts</title><desc>Remove scripts to protect your anonymity and speed up page loads. However, not all sites will provide an HTML-only alternative. (Recommended)</desc></option><option key="stripObjects" default="false" force="false"><title>Remove Objects</title><desc>You can increase page load times by removing unnecessary Flash, Java and other objects. If not removed, these may also compromise your anonymity.</desc></option></section><section type="forced" hidden="true" name="Do not edit this section manually!"><option key="version" type="string"><default>\''.ADMIN_VERSION.'\'</default><desc>Settings file version for determining compatibility with admin tool.</desc></option></section></options>');
+		$options = simplexml_load_string('<?xml version="1.0" encoding="UTF-8"?><options><section name="Special Options" type="settings"><option key="license_key" type="string" input="text" styles="wide-input"><title>Glype License key</title><default>\'\'</default><desc>If you have purchased a license, please enter your license key here. Leave blank if you don\'t have a license.</desc></option><option key="enable_blockscript" type="bool" input="radio"><title>Enable BlockScript</title><default>false</default><desc>BlockScript is security software which protects websites and empowers webmasters to stop unwanted traffic.</desc></option></section><section name="Installation Options" type="settings"><option key="theme" type="string" input="select"><title>Theme</title><default>\'default\'</default><desc>Theme/skin to use. This should be the name of the appropriate folder inside the /themes/ folder.</desc><generateOptions eval="true"><![CDATA[/* Check the dir exists */$themeDir = GLYPE_ROOT . \'/themes/\';if ( ! is_dir($themeDir) ) {return false;}/* Load folders from /themes/ */$dirs = scandir($themeDir);/* Loop through to create options string */$options = \'\';foreach ( $dirs as $dir ) {/* Ignore dotfiles */if ( $dir[0] == \'.\' ) {continue;}/* Add if this is valid theme */if ( file_exists($themeDir . $dir . \'/main.php\') ) {/* Make selected if this is our current theme */$selected =	( isset($currentValue) && $currentValue == $dir ) ? \' selected="selected"\' : \'\';/* Add option */$options .= "<option{$selected}>{$dir}</option>";}}return $options;]]></generateOptions></option><option key="plugins" type="string" input="text" styles="wide-input" readonly="readonly"><title>Register Plugins</title><default></default><desc>Run plugins on these websites</desc><toDisplay eval="true"><![CDATA[ if ($handle = opendir(GLYPE_ROOT."/plugins")) {while (($plugin=readdir($handle))!==false) {if (preg_match(\'#\.php$#\', $plugin)) {$plugin = preg_replace("#\.php$#", "", $plugin);$plugins[] = $plugin;}}closedir($handle);$plugin_list = implode(",", $plugins);} return $plugin_list; ]]></toDisplay><afterField>Auto-generated from plugins directory. Do not edit!</afterField></option><option key="tmp_dir" type="string" input="text" styles="wide-input"><title>Temporary directory</title><default>GLYPE_ROOT . \'/tmp/\'</default><desc>Temporary directory used by the script. Many features require write permission to the temporary directory. Ensure this directory exists and is writable for best performance.</desc><relative to="GLYPE_ROOT" desc="root proxy folder" /><isDir /></option><option key="gzip_return" type="bool" input="radio"><title>Use GZIP compression</title><default>false</default><desc>Use GZIP compression when sending pages back to the user. This reduces bandwidth usage but at the cost of increased CPU load.</desc></option><option key="ssl_warning" type="bool" input="radio"><title>SSL warning</title><default>true</default><desc>Warn users before browsing a secure site if on an insecure connection. This option has no effect if your proxy is on https.</desc></option><option key="override_javascript" type="bool" input="radio"><title>Override native javascript</title><default>false</default><desc>The fastest and most reliable method of ensuring javascript is properly proxied is to override the native javascript functions with our own. However, this may interfere with any other javascript added to the page, such as ad codes.</desc></option><option key="load_limit" type="float" input="text" styles="small-input"><title>Load limiter</title><default>0</default><desc>This option fetches the server load and stops the script serving pages whenever the server load goes over the limit specified. Set to 0 to disable this feature.</desc><afterField eval="true"><![CDATA[/* Attempt to find the load */$load = ( ($uptime = @shell_exec(\'uptime\')) && preg_match(\'#load average: ([0-9.]+),#\', $uptime, $tmp) ) ? (float) $tmp[1] : false;if ( $load === false ) {return \'<span class="error-color">Feature unavailable here</span>. Failed to find current server load.\';} else {return \'<span class="ok-color">Feature available here</span>. Current load: \' . $load;}]]></afterField></option><option key="footer_include" type="string" input="textarea" styles="wide-input"><title>Footer include</title><default>\'\'</default><desc>Anything specified here will be added to the bottom of all proxied pages just before the <![CDATA[</body>]]> tag.</desc><toDisplay eval="true"><![CDATA[ return htmlentities($currentValue); ]]></toDisplay></option></section><section name="URL Encoding Options" type="settings"><option key="path_info_urls" type="bool" input="radio"><title>Use path info</title><default>false</default><desc>Formats URLs as browse.php/aHR0... instead of browse.php?u=aHR0... Path info may not be available on all servers.</desc></option></section><section name="Hotlinking" type="settings"><option key="stop_hotlinking" type="bool" input="radio"><title>Prevent hotlinking</title><default>true</default><desc>This option prevents users &quot;hotlinking&quot; directly to a proxied page and forces all users to first visit the index page. Note: hotlinking is also prevented when the &quot;Encrypt URL&quot; option is enabled.</desc></option><option key="hotlink_domains" type="array" input="textarea" styles="wide-input"><title>Allow hotlinking from</title><default>array()</default><desc>If the above option is enabled, you can add individual referrers that are allowed to bypass the hotlinking protection. Note: hotlinking is also prevented when the &quot;Encrypt URL&quot; option is enabled.</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>Enter one domain per line</afterField></option></section><section name="Logging" type="settings"><comment><![CDATA[<p>You may be held responsible for requests from your proxy\'s IP address. You can use logs to record the decrypted URLs of pages visited by users in case of illegal activity undertaken through your proxy.</p>]]></comment><option key="enable_logging" type="bool" input="radio"><title>Enable logging</title><default>false</default><desc>Enable/disable the logging feature. If disabled, skip the rest of this section.</desc></option><option key="logging_destination" type="string" input="text" styles="wide-input"><title>Path to log folder</title><default>$CONFIG[\'tmp_dir\']	. \'logs/\'</default><desc>Enter a destination for log files. A new log file will be created each day in the directory specified. The directory must be writable. To protect against unauthorized access, place the log folder above your webroot.</desc><relative to="$CONFIG[\'tmp_dir\']" desc="temporary directory" /><isDir /></option><option key="log_all" type="bool" input="radio"><title>Log all requests</title><default>false</default><desc>You can avoid huge log files by only logging requests for .html pages, as per the default setting. If you want to log all requests (images, etc.) as well, enable this.</desc></option></section><section name="Website access control" type="settings"><comment><![CDATA[<p>You can restrict access to websites through your proxy with either a whitelist or a blacklist:</p><ul class="black"><li>Whitelist: any site that <strong>is not</strong> on the list will be blocked.</li><li>Blacklist: any site that <strong>is</strong> on the list will be blocked</li></ul>]]></comment><option key="whitelist" type="array" input="textarea" styles="wide-input"><title>Whitelist</title><default>array()</default><desc>Block everything except these websites</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>Enter one domain per line</afterField></option><option key="blacklist" type="array" input="textarea" styles="wide-input"><title>Blacklist</title><default>array()</default><desc>Block these websites</desc><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>Enter one domain per line</afterField></option></section><section name="User access control" type="settings"><comment><![CDATA[<p>You can ban users from accessing your proxy by IP address. You can specify individual IP addresses or IP address ranges in the following formats:</p><ul class="black"><li>127.0.0.1</li><li>127.0.0.1-127.0.0.5</li><li>127.0.0.1/255.255.255.255</li><li>192.168.17.1/16</li><li>189.128/11</li></ul>]]></comment><option key="ip_bans" type="array" input="textarea" styles="wide-input"><title>IP bans</title><default>array()</default><toDisplay eval="true"><![CDATA[ return implode("\r\n", $currentValue); ]]></toDisplay><toStore eval="true"><![CDATA[ $value = str_replace("\r", "\n", $value);$value=preg_replace("#\n+#", "\n", $value);return array_filter(explode("\n", $value));]]></toStore><afterField>Enter one IP address or IP address range per line</afterField></option></section><section name="Transfer options" type="settings"><option key="connection_timeout" type="int" input="text" styles="small-input" unit="seconds"><title>Connection timeout</title><default>5</default><desc>Time to wait for while establishing a connection to the target server. If the connection takes longer, the transfer will be aborted.</desc><afterField>Use 0 for no limit</afterField></option><option key="transfer_timeout" type="int" input="text" styles="small-input" unit="seconds"><title>Transfer timeout</title><default>15</default><desc>Time to allow for the entire transfer. You will need a longer time limit to download larger files.</desc><afterField>Use 0 for no limit</afterField></option><option key="max_filesize" type="int" input="text" styles="small-input" unit="MB"><title>Filesize limit</title><default>0</default><desc>Preserve bandwidth by limiting the size of files that can be downloaded through your proxy.</desc><toDisplay>return $currentValue ? round($currentValue/(1024*1024), 2) : 0;</toDisplay><toStore>return $value*1024*1024;</toStore><afterField>Use 0 for no limit</afterField></option><option key="download_speed_limit" type="int" input="text" styles="small-input" unit="KB/s"><title>Download speed limit</title><default>0</default><desc>Preserve bandwidth by limiting the speed at which files are downloaded through your proxy. Note: if limiting download speed, you may need to increase the transfer timeout to compensate.</desc><toDisplay>return $currentValue ? round($currentValue/(1024), 2) : 0;</toDisplay><toStore>return $value*1024;</toStore><afterField>Use 0 for no limit</afterField></option><option key="resume_transfers" type="bool" input="radio"><title>Resume transfers</title><default>false</default><desc>This forwards any requested ranges from the client and this makes it possible to resume previous downloads. Depending on the &quot;Queue transfers&quot; option below, it may also allow users to download multiple segments of a file simultaneously.</desc></option><option key="queue_transfers" type="bool" input="radio"><title>Queue transfers</title><default>true</default><desc>You can limit use of your proxy to allow only one transfer at a time per user. Disable this for faster browsing.</desc></option></section><section name="Cookies" type="settings"><comment><![CDATA[<p>All cookies must be sent to the proxy script. The script can then choose the correct cookies to forward to the target server. However there are finite limits in both the client\'s storage space and the size of the request Cookie: header that the server will accept. For prolonged browsing, you may wish to store cookies server side to avoid this problem.</p><br><p>This has obvious privacy issues - if using this option, ensure your site clearly states how it handles cookies and protect the cookie data from unauthorized access.</p>]]></comment><option key="cookies_on_server" type="bool" input="radio"><title>Store cookies on server</title><default>false</default><desc>If enabled, cookies will be stored in the folder specified below.</desc></option><option key="cookies_folder" type="string" input="text" styles="wide-input"><title>Path to cookie folder</title><default>$CONFIG[\'tmp_dir\']	 . \'cookies/\'</default><desc>If storing cookies on the server, specify a folder to save the cookie data in. To protect against unauthorized access, place the cookie folder above your webroot.</desc><relative to="$CONFIG[\'tmp_dir\']" desc="temporary directory" /><isDir /></option><option key="encode_cookies" type="bool" input="radio"><title>Encode cookies</title><default>false</default><desc>You can encode cookie names, domains and values with this option for optimum privacy but at the cost of increased server load and larger cookie sizes. This option has no effect if storing cookies on server.</desc></option></section><section name="Maintenance" type="settings"><option key="tmp_cleanup_interval" type="float" input="text" styles="small-input" unit="hours"><title>Cleanup interval</title><default>48</default><desc>How often to clear the temporary files created by the script?</desc><afterField>Use 0 to disable</afterField></option><option key="tmp_cleanup_logs" type="float" input="text" styles="small-input" unit="days"><title>Keep logs for</title><default>30</default><desc>When should old log files be deleted? This option has no effect if the above option is disabled.</desc><afterField>Use 0 to never delete logs</afterField></option></section><section type="user" name="User Configurable Options"><option key="encodeURL" default="true" force="false"><title>Encrypt URL</title><desc>Encrypts the URL of the page you are viewing for increased privacy. Note: this option is intended to obscure URLs and does not provide security. Use SSL for actual security.</desc></option><option key="encodePage" default="false" force="false"><title>Encrypt Page</title><desc>Helps avoid filters by encrypting the page before sending it and decrypting it with javascript once received. Note: this option is intended to obscure HTML source code and does not provide security. Use SSL for actual security.</desc></option><option key="showForm" default="true" force="true"><title>Show Form</title><desc>This provides a mini-form at the top of each page that allows you to quickly jump to another site without returning to our homepage.</desc></option><option key="allowCookies" default="true" force="false"><title>Allow Cookies</title><desc>Cookies may be required on interactive websites (especially where you need to log in) but advertisers also use cookies to track your browsing habits.</desc></option><option key="tempCookies" default="true" force="true"><title>Force Temporary Cookies</title><desc>This option overrides the expiry date for all cookies and sets it to at the end of the session only - all cookies will be deleted when you shut your browser. (Recommended)</desc></option><option key="stripTitle" default="false" force="true"><title>Remove Page Titles</title><desc>Removes titles from proxied pages.</desc></option><option key="stripJS" default="true" force="false"><title>Remove Scripts</title><desc>Remove scripts to protect your anonymity and speed up page loads. However, not all sites will provide an HTML-only alternative. (Recommended)</desc></option><option key="stripObjects" default="false" force="false"><title>Remove Objects</title><desc>You can increase page load times by removing unnecessary Flash, Java and other objects. If not removed, these may also compromise your anonymity.</desc></option></section><section type="forced" hidden="true" name="Do not edit this section manually!"><option key="version" type="string"><default>\''.ADMIN_VERSION.'\'</default><desc>Settings file version for determining compatibility with admin tool.</desc></option></section></options>');
 
 		#
 		# SAVE CHANGES
@@ -1630,7 +1626,7 @@ OUT;
 
 			# Finished, save to file
 			if ( file_put_contents(ADMIN_GLYPE_SETTINGS, $toWrite) ) {
-				$confirm->add('已更新设置。');
+				$confirm->add('The settings file has been updated.');
 			} else {
 				$error->add('The settings file failed to write. The file was detected as writable but file_put_contents() returned false.');
 			}
@@ -1646,13 +1642,11 @@ OUT;
 
 		# Set up page variables
 		$output->title		 = 'edit settings';
-		$output->bodyTitle = '
-编辑设置';
+		$output->bodyTitle = 'Edit settings';
 
 		# Print form
 		echo <<<OUT
-		<p>
-此页面的功能:您可以编辑您的配置来定制和调整您的代理。如果某个选项不清楚，可将鼠标悬停在选项名称上以获取更详细的说明。<a href="#notes">更多...</a></p>
+		<p>This page allows you to edit your configuration to customize and tweak your proxy. If an option is unclear, hover over the option name for a more detailed description. <a href="#notes">More...</a></p>
 
 		<form action="{$self}?settings" method="post">
 OUT;
@@ -1969,16 +1963,16 @@ OUT;
 		# Page footer
 		echo <<<OUT
 		<div class="hr"></div>
-		<p class="center"><input class="button" type="submit" name="submit" value="保存更改"{$tpl->disabled}></p>
+		<p class="center"><input class="button" type="submit" name="submit" value="Save Changes"{$tpl->disabled}></p>
 		</form>
 
 		<div class="hr"></div>
-		<h2><a name="notes"></a>注意事项：</h2>
+		<h2><a name="notes"></a>Notes:</h2>
 		<ul class="black">
-			<li><b>临时目录：</b> 许多功能都需要写入到临时目录。如果你在使用这些功能：日志，服务器端的cookie，维护/清理服务器负载限制器。确保您有相应的权限。</li>
-			<li><b>敏感数据:</b> 一些临时文件可能包含个人资料应予保密，如日志文件和服务器端的cookies，如果使用这些功能，请预防未经授权的访问。也可以选择一个合适的位置高于根或使用.htaccess文件拒绝访问。</li>
-			<li><b>相对路径：</b> 您可以指定一些路径为相对于其他路径。例如，如果日志/创建[TMP_DIR]/日志/（按照默认设置），您可以编辑值TMP_DIR和日志路径会自动更新。</li>
-			<li><b>快速入门:</b> 默认情况下，所有的临时文件在/ tmp/目录下创建。根据某些功能需要可以创建子文件夹，私人文件保护的.htaccess文件。如果运行Apache，你可以简单地设置在/tmp目录可写权限（0755或0777），这样的话所有功能都将不会进一步修改文件系统或权限。</li>
+			<li><b>Temporary directory:</b> many features require write access to the temporary directory. Ensure you set up the permissions accordingly if you use any of these features: logging, server-side cookies, maintenance/cleanup and the server load limiter.</li>
+			<li><b>Sensitive data:</b> some temporary files may contain personal data that should be kept private - that is, log files and server-side cookies. If using these features, protect against unauthorized access by choosing a suitable location above the webroot or using .htaccess files to deny access.</li>
+			<li><b>Relative paths:</b> you can specify some paths as relative to other paths. For example, if logs are created in /[tmp_dir]/logs/ (as per the default setting), you can edit the value for tmp_dir and the logs path will automatically update.</li>
+			<li><b>Quick start:</b> by default, all temporary files are created in the /tmp/ directory. Subfolders for features are created as needed. Private files are protected with .htaccess files. If running Apache, you can simply set writable permissions on the /tmp/ directory (0755 or 0777) and all features will work without further changes to the filesystem or permissions.</li>
 		</ul>
 		<p class="right"><a href="#">^ top</a></p>
 OUT;
@@ -2089,30 +2083,30 @@ OUT;
 
 		# Print header
 		$output->title		 = 'log viewer';
-		$output->bodyTitle = '记录';
+		$output->bodyTitle = 'Logging';
 
 		echo <<<OUT
 				<form action="{$self}?logs" method="post">
 				<table class="form_table" border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td align="right">日志记录功能:</td>
+						<td align="right">Logging feature:</td>
 						<td><b>{$status}</b></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="tooltip" onmouseover="tooltip('The value here is for viewing and analysing logs only - changing this has no effect on the proxy logging feature itself and will not change the folder in which new log files are created.')" onmouseout="exit()">日志文件夹</span>:</td>
-						<td><input type="text" name="destination" class="inputgri wide-input" value="{$destination}"> <input type="submit" class="button" value="更新 &raquo;"></td>
+						<td align="right"><span class="tooltip" onmouseover="tooltip('The value here is for viewing and analysing logs only - changing this has no effect on the proxy logging feature itself and will not change the folder in which new log files are created.')" onmouseout="exit()">Log folder</span>:</td>
+						<td><input type="text" name="destination" class="inputgri wide-input" value="{$destination}"> <input type="submit" class="button" value="Update &raquo;"></td>
 					</tr>
 				</table>
 				</form>
 				<div class="hr"></div>
-				<h2>日志文件</h2>
+				<h2>Log files</h2>
 OUT;
 
 		# Do we have any log files to analyze?
 		if ( ! ( file_exists($destination) && is_dir($destination) && ($logFiles = scandir($destination, 1)) ) ) {
 
 			# Print none and exit
-			echo '<p>没有日志文件进行分析。</p>';
+			echo '<p>No log files to analyze.</p>';
 			break;
 
 		}

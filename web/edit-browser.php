@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -119,16 +119,16 @@ echo <<<OUT
 		});
 	</script>
 
-	<h2 class="first">编辑浏览器</h2>
-	<p>你可以设置下面的“虚拟浏览器”。 这些选项将会影响发送到目标服务器的数据信息。 </p>
+	<h2 class="first">Edit Browser</h2>
+	<p>You can adjust the settings for your "virtual browser" below. These options affect the information the proxy sends to the target server.</p>
 	<form action="includes/process.php?action=edit-browser" method="post">
 
 		<table cellpadding="2" cellspacing="0" align="center" class="large-table">
 			<tr>
-				<th colspan="2">使用代理 (<a style="cursor:help;" onmouseover="tooltip('Your user agent is sent to the server and identifies the software you are using to access the internet.')" onmouseout="exit()">?</a>)</th>
+				<th colspan="2">User Agent (<a style="cursor:help;" onmouseover="tooltip('Your user agent is sent to the server and identifies the software you are using to access the internet.')" onmouseout="exit()">?</a>)</th>
 			</tr>
 			<tr>
-				<td width="150">选择预设浏览器:</td>
+				<td width="150">Choose from presets:</td>
 				<td>
 					<select id="user-agent-presets" onchange="updateCustomUA(this)">
 						<option value="Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET4.0C; .NET4.0E)">XP with IE 8</option>
@@ -161,30 +161,30 @@ echo <<<OUT
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" class="small-note"><b>注意:</b> 一些网站可能根据你的代理而调整内容。</td>
+				<td colspan="2" class="small-note"><b>Note:</b> some websites may adjust content based on your user agent.</td>
 			</tr>
 		</table>
 
 		<table cellpadding="2" cellspacing="0" align="center" class="large-table">
 			<tr>
-				<th colspan="2">网络来路 (<a style="cursor:help;" onmouseover="tooltip('The URL of the referring page is normally sent to the server. You can override this to a custom value or set to send no referrer for extra privacy.')" onmouseout="exit()">?</a>)</th>
+				<th colspan="2">Referrer (<a style="cursor:help;" onmouseover="tooltip('The URL of the referring page is normally sent to the server. You can override this to a custom value or set to send no referrer for extra privacy.')" onmouseout="exit()">?</a>)</th>
 			</tr>
 			<tr>
-				<td width="150">发送真实来路:</td>
+				<td width="150">Send real referrer:</td>
 				<td><input type="checkbox" name="real-referrer" id="real-referrer" onclick="clearCustomReferrer(this)"></td>
 			</tr>
 			<tr>
-				<td>自定义来路:</td>
+				<td>Custom referrer:</td>
 				<td><input type="text" name="custom-referrer" id="custom-referrer" class="full-width" onchange="clearRealReferrer()"></td>
 			</tr>
 			<tr>
-				<td colspan="2" class="small-note"><b>注意:</b> 若设置不当，一些网站会验证你的来路并拒绝服务。 </td>
+				<td colspan="2" class="small-note"><b>Note:</b> some websites may validate your referrer and deny access if set to an unexpected value</td>
 			</tr>
 		</table>
 
 		<br>
 
-		<div style="text-align: center;"><input type="submit" value="保存"> {$return}</div>
+		<div style="text-align: center;"><input type="submit" value="Save"> {$return}</div>
 
 		{$returnField}
 
