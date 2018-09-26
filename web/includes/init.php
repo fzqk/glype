@@ -12,6 +12,7 @@
 /*****************************************************************
 * Initialise
 ******************************************************************/
+
 # Choose error reporting levels
 error_reporting(E_ALL);
 ini_set('display_errors', 0); # Always report but don't display on live installation
