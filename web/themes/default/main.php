@@ -5,11 +5,13 @@
 <title><!--[site_name]--></title>
 <meta name="description" content="<!--[meta_description]-->">
 <meta name="keywords" content="<!--[meta_keywords]-->">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 	/* GLOBAL ELEMENTS */
+	/**bg color white*/
 	html,body {
 		margin: 0; padding: 0;
-		background: #0b1933;
+		background: white;
 		font-size: 100%;
 		font-family: "trebuchet ms", arial, verdana;
 		color: #444;
@@ -31,7 +33,9 @@
 	}
 	
 	/* LAYOUT */
+	/*opacity = 0  */
 	#wrapper {
+		opacity:0;
 		width: 700px;
 		margin: 0 auto 0 auto;
 		text-align: left;
@@ -199,6 +203,9 @@
 </script>
 </head>
 <body>
+<div style="float: left;font-size: 20px; font-family:'Georgia,Serif'; padding-top: 2rem;padding-left: 1rem;">
+	redirecting the url please wait (正在跳转网页,请等待)。
+</div>
 <div id="wrapper">
 	<div id="header">
 		<h1><a href="index.php"><?php
@@ -234,7 +241,7 @@
 
 		<form action="includes/process.php?action=update" method="post" onsubmit="return updateLocation(this);" class="form">
 			<input type="text" name="u" id="input" size="40" class="textbox">
-			<input type="submit" value="Go" class="button"> &nbsp; [<a style="cursor:pointer;" onclick="document.getElementById('options').style.display=(document.getElementById('options').style.display=='none'?'':'none')">options</a>]
+			<input id="loadurlbtn" type="submit" value="Go" class="button"> &nbsp; [<a style="cursor:pointer;" onclick="document.getElementById('options').style.display=(document.getElementById('options').style.display=='none'?'':'none')">options</a>]
 			<ul id="options">
 				<?php foreach ($toShow as $option) echo '<li><input type="checkbox" name="'.$option['name'].'" id="'.$option['name'].'"'.$option['checked'].'><label for="'.$option['name'].'" class="tooltip" onmouseover="tooltip(\''.$option['escaped_desc'].'\')" onmouseout="exit();">'.$option['title'].'</label></li>';?>
 			</ul>
