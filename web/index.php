@@ -228,3 +228,12 @@ if ( ! empty($runCleanup) ) {
 	# Finished.
 
 }
+
+#load url 
+if ( isset($_GET['url']) ) {
+	$url =  $_GET['url'];
+	echo "
+	<script>document.getElementById('input').value='$url';
+	document.getElementById('loadurlbtn').click();
+</script>";
+}
